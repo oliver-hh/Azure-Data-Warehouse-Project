@@ -1,5 +1,32 @@
 # Divvy
 
+## Business outcomes to design for
+
+1. Analyze how much time is spent per trip
+   - Based on date and time factors such as day of week and time of day
+   - Based on which station is the starting and / or ending station
+   - Based on age of the rider at time of the ride
+   - Based on whether the rider is a member or a casual rider
+
+fact_trip_duration
+- PK time_per_ride_key
+- dim_date_time
+- dim_start_station
+- dim_end_station
+- time_spent_per_ride
+
+1. Analyze how much money is spent
+   - Per month, quarter, year
+   - Per member, based on the age of the rider at account start
+
+fact_money_spent
+
+3. EXTRA CREDIT - Analyze how much money is spent per member
+   - Based on how many rides the rider averages per month
+   - Based on how many minutes the rider spends on a bike per month
+
+fact_money_spent_per_member
+
 ## Provide OLTP database
 
 Create postgres database
@@ -20,7 +47,35 @@ Ingest data from postgress into the previously created container with a built-in
 
 Create database ```udacity-divvy``` in the serverless SQL pool
 
-Create external tables from the 
+Create external tables from the extracted ```csv``` files.
+
+
+## Tranform Stage (fact/dim-tables)
+
+### Common Dimension Tables
+
+A python-script ```create_date_dim.py``` has been created to provide a very sophisticated dimension table for dates:
+
+| Column                | Type   | Values                                  |
+| --------------------- | ------ | --------------------------------------- |
+| date_key              | date   | 2021-01-01 00:00:00-2022-12-31 23:00:00 |
+| year                  | int    | 2021-022                                |
+| month                 | int    | 01-12                                   |
+| day                   | int    | 01-31                                   |
+| hour                  | int    | 00-23                                   |
+| time_of_day           | string | Morning, Afternoon, Evening, Night      |
+| quarter               | int    | 1-4                                     |
+| week                  | int    | 1-53                                    |
+| day_of_week           | int    | 0-6                                     |
+| season                | string | Sprint, Sumer, Autumn, Winter           |
+| is_weekend_or_holiday | bool   | True, False                             |
+
+
+
+
+
+
+
 
 
 
