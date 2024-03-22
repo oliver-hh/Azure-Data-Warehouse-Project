@@ -1,3 +1,34 @@
+# Divvy
+
+## Provide OLTP database
+
+Create postgres database
+
+Download csv-files from [here](https://video.udacity-data.com/topher/2022/March/622a5fc6_azure-data-warehouse-projectdatafiles/azure-data-warehouse-projectdatafiles.zip)
+
+Import the csv-files to postgres
+
+## Extract Stage (Ingest data)
+
+Create linked service for postgres in Synapse
+
+Create a new blob container ```udacity-divvy``` in the existing storage account ```dlsazdelab```.
+
+Ingest data from postgress into the previously created container with a built-in copy task.
+
+## Load Stage (Staging tables)
+
+Create database ```udacity-divvy``` in the serverless SQL pool
+
+Create external tables from the 
+
+
+
+[Synapse / Data Factory naming conventions](https://erwindekreuk.com/2020/07/azure-data-factory-naming-conventions/#:%7E:text=There%20are%20a%20few%20standard%20naming%20conventions%20that,begin%20with%20a%20letter%2C%20number%20or%20underscore%20%28_%29.)
+
+[MS Database Architecture](https://learn.microsoft.com/en-us/azure/architecture/databases/)
+
+
 # README Template
 
 Below is a template provided for use when building your README file for students.
