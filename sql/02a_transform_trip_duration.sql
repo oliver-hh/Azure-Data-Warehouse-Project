@@ -99,21 +99,26 @@ FROM
 
 GO
 
--- dim_rider_age_trip
-IF OBJECT_ID('dbo.dim_rider_age_trip') IS NOT NULL
+-- fact_trip
+IF OBJECT_ID('dbo.fact_trip') IS NOT NULL
 BEGIN
-  DROP EXTERNAL TABLE [dbo].[dim_rider_age_trip];
+  DROP EXTERNAL TABLE [dbo].[fact_trip];
 END
 
-CREATE EXTERNAL TABLE dbo.dim_rider_age_trip
+CREATE EXTERNAL TABLE dbo.fact_trip
 WITH (
-  LOCATION    = 'dim_rider_age_trip',
+  LOCATION    = 'fact_trip',
   DATA_SOURCE = [udacity-divvy_dlsazdelab_dfs_core_windows_net],
-  FILE_FORMAT = [SynapseDelimitedTextFormat]
+	FILE_FORMAT = [SynapseDelimitedTextFormat]
 )
 AS
 SELECT
-  trip_key = t.trip_id,
+  date_key = DATEADD(HOUR, DATEDIFF(HOUR, 0, t.start_at), 0),
+  rider_age_trip_key = t.trip_id,
+  rider_key = t.rider_id,
+  start_station_key = t.start_station_id,
+  end_station_key = t.end_station_id,
+  duration_in_minutes = DATEDIFF(MINUTE, t.start_at, t.ended_at),
   age_trip = (SELECT
     YEAR(t.start_at) - YEAR(r.birthday) -
     CASE
@@ -121,38 +126,13 @@ SELECT
           OR (MONTH(t.start_at) = MONTH(birthday) AND DAY(t.start_at) < DAY(birthday))
       THEN 1
       ELSE 0
-    END)FROM
-  staging_trip t
-INNER JOIN
-  staging_rider r on r.rider_id = t.rider_id;
-GO
-
--- fact_trip_duration
-IF OBJECT_ID('dbo.fact_trip_duration') IS NOT NULL
-BEGIN
-  DROP EXTERNAL TABLE [dbo].[fact_trip_duration];
-END
-
-CREATE EXTERNAL TABLE dbo.fact_trip_duration
-WITH (
-  LOCATION    = 'fact_trip_duration',
-  DATA_SOURCE = [udacity-divvy_dlsazdelab_dfs_core_windows_net],
-	FILE_FORMAT = [SynapseDelimitedTextFormat]
-)
-AS
-SELECT
-  date_key = DATEADD(HOUR, DATEDIFF(HOUR, 0, start_at), 0),
-  rider_age_trip_key = trip_id,
-  rider_key = rider_id,
-  start_station_key = start_station_id,
-  end_station_key = end_station_id,
-  duration_in_minutes = DATEDIFF(MINUTE, start_at, ended_at)
-FROM staging_trip;
+    END) 
+FROM staging_trip t
+INNER JOIN staging_rider r on r.rider_id = t.rider_id;
 GO
 
 -- Test queries
-SELECT TOP 10 * FROM dbo.fact_trip_duration
+SELECT TOP 10 * FROM fact_trip
 SELECT TOP 10 * FROM dim_date_trip
 SELECT TOP 10 * FROM dim_station
 SELECT TOP 10 * FROM dim_rider
-SELECT TOP 10 * FROM dim_rider_age_trip
