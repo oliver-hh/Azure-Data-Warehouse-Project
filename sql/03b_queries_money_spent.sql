@@ -35,3 +35,17 @@ WHERE
 ORDER BY  
     year, quarter, month;  
 
+-- Money spent per member based on rides/minutes per month
+SELECT TOP 100
+    ft.rider_key,
+    date_month = DATEADD(MONTH, DATEDIFF(MONTH, 0, ft.date_key), 0),
+    number_of_rides = COUNT(1),
+    total_minutes = SUM(ft.duration_in_minutes),
+    money_spent = SUM(fm.amount_dollar)
+FROM
+    fact_trip ft
+INNER JOIN
+    fact_money_spent fm ON fm.rider_key = ft.rider_key AND fm.date_key = DATEADD(MONTH, DATEDIFF(MONTH, 0, ft.date_key), 0)
+GROUP BY
+    ft.rider_key,
+    DATEADD(MONTH, DATEDIFF(MONTH, 0, ft.date_key), 0)
