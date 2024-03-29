@@ -6,7 +6,7 @@ Text taken from [Udacity Project Description](https://learn.udacity.com/nanodegr
 ## Getting started
 The project is a fork of the official Udacity starter code of the GitHub repo ```udacity/Azure-Data-Warehouse-Project:main```.
 
-The folder structure of the project contain the following folder and files I chanchged/created
+The folder structure of the project contains the following folders and files I chanchged/created
 - ```README.md```: This file with the documentation
 - Folders relevant to project rubric
   - ```01_star_schema```: PDF file with the star schemas used in the project
