@@ -4,6 +4,8 @@ Divvy is a bike sharing program in Chicago, Illinois USA that allows riders to p
 Text taken from [Udacity Project Description](https://learn.udacity.com/nanodegrees/nd0277/parts/cd11530/lessons/015dff86-2a7f-4a70-a35b-a8026e662389/concepts/48cb5238-ea63-4256-83bb-ab3d79d69b48)  
 
 ## Getting started
+The project is a fork of the official Udacity starter code of the GitHub repo ```udacity/Azure-Data-Warehouse-Project:main```.
+
 The folder structure of the project contain the following folder and files I chanchged/created
 - ```README.md```: This file with the documentation
 - Folders relevant to project rubric
