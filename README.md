@@ -20,6 +20,8 @@ The folder structure of the project contain the following folder and files I cha
   - ```data```/```python```: This was just an experiment to create a Python version of an date dimension table.
   - ```sql```: Working folder for PostgrSQL data analysis, load/transform and queries I created to validate the dimension and fact tables against the expected business outcomes. 
 
+All the tasks have been executed on my own Azure subscription which is part of my Visual Studio Enterprise license.
+
 ## Business outcomes to design for
 
 1. Analyze how much time is spent per trip
