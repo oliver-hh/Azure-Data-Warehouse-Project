@@ -24,15 +24,15 @@ ORDER BY
   date_key;
 GO
 
--- fact_money_spent
-IF OBJECT_ID('dbo.fact_money_spent') IS NOT NULL
+-- fact_payment
+IF OBJECT_ID('dbo.fact_payment') IS NOT NULL
 BEGIN
-  DROP EXTERNAL TABLE [dbo].[fact_money_spent];
+  DROP EXTERNAL TABLE [dbo].[fact_payment];
 END
 
-CREATE EXTERNAL TABLE dbo.fact_money_spent
+CREATE EXTERNAL TABLE dbo.fact_payment
 WITH (
-  LOCATION    = 'fact_money_spent',
+  LOCATION    = 'fact_payment',
   DATA_SOURCE = [udacity-divvy_dlsazdelab_dfs_core_windows_net],
 	FILE_FORMAT = [SynapseDelimitedTextFormat]
 )
@@ -48,5 +48,5 @@ GO
 
 
 SELECT * FROM dim_date_payment
-SELECT TOP 100 * FROM fact_money_spent
+SELECT TOP 100 * FROM fact_payment
 

@@ -3,7 +3,7 @@ SELECT
     d.year, d.quarter, d.month,
     amount_dollar = SUM(f.amount_dollar)
 FROM
-    fact_money_spent f
+    fact_payment f
 INNER JOIN
     dim_date_payment d on d.date_key = f.date_key
 GROUP BY
@@ -18,7 +18,7 @@ ORDER BY
         amount_dollar = sum(f.amount_dollar),  
         ROW_NUMBER() OVER(PARTITION BY d.year, d.quarter, d.month ORDER BY sum(f.amount_dollar) DESC) as rn  
     FROM  
-        fact_money_spent f  
+        fact_payment f  
     INNER JOIN  
         dim_date_payment d on d.date_key = f.date_key  
     INNER JOIN  
@@ -38,14 +38,22 @@ ORDER BY
 -- Money spent per member based on rides/minutes per month
 SELECT TOP 100
     ft.rider_key,
-    date_month = DATEADD(MONTH, DATEDIFF(MONTH, 0, ft.date_key), 0),
+    d.year,
+    d.month,
     number_of_rides = COUNT(1),
     total_minutes = SUM(ft.duration_in_minutes),
-    money_spent = SUM(fm.amount_dollar)
+    money_spent = SUM(fp.amount_dollar)
 FROM
     fact_trip ft
 INNER JOIN
-    fact_money_spent fm ON fm.rider_key = ft.rider_key AND fm.date_key = DATEADD(MONTH, DATEDIFF(MONTH, 0, ft.date_key), 0)
+    fact_payment fp ON fp.rider_key = ft.rider_key AND fp.date_key = DATEADD(MONTH, DATEDIFF(MONTH, 0, ft.date_key), 0)
+INNER JOIN
+    dim_date_payment d ON d.date_key = fp.date_key
 GROUP BY
     ft.rider_key,
-    DATEADD(MONTH, DATEDIFF(MONTH, 0, ft.date_key), 0)
+    d.year,
+    d.month
+ORDER BY
+    d.year,
+    d.month,
+    money_spent DESC
