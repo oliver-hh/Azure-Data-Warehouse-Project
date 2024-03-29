@@ -114,7 +114,6 @@ WITH (
 AS
 SELECT
   date_key = DATEADD(HOUR, DATEDIFF(HOUR, 0, t.start_at), 0),
-  rider_age_trip_key = t.trip_id,
   rider_key = t.rider_id,
   start_station_key = t.start_station_id,
   end_station_key = t.end_station_id,
